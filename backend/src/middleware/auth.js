@@ -31,7 +31,17 @@ const protect = async (req, res, next) => {
     }
 
     // ── 2. Verify token signature & expiry ──────────────────────────
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'taskflow_super_secret_fallback_key_2026_safe');
+
+    // Bypass database lookup for Demo User to support zero-config cloud deployments
+    if (decoded.id === '6a09847bb4bd5043e218a7d1') {
+      req.user = {
+        _id: '6a09847bb4bd5043e218a7d1',
+        name: 'Demo User',
+        email: 'demo@taskflow.com',
+      };
+      return next();
+    }
 
     // ── 3. Confirm the user still exists in the database ─────────────
     const user = await User.findById(decoded.id);

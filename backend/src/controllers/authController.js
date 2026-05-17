@@ -6,7 +6,7 @@ const { validationResult } = require('express-validator');
 //  Helper — Generate signed JWT token
 // ────────────────────────────────────────────
 const generateToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, {
+  jwt.sign({ id }, process.env.JWT_SECRET || 'taskflow_super_secret_fallback_key_2026_safe', {
     expiresIn: process.env.JWT_EXPIRE || '7d',
   });
 
