@@ -78,7 +78,7 @@ const Login = () => {
                   type="email" name="email" value={formData.email} onChange={handleChange}
                   placeholder="Enter your email" required className="input-field"
                   style={{ paddingLeft: '2.5rem' }}
-                  autoComplete="email"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -95,7 +95,7 @@ const Login = () => {
                   value={formData.password} onChange={handleChange}
                   placeholder="Enter your password" required className="input-field"
                   style={{ paddingLeft: '2.5rem', paddingRight: '2.75rem' }}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
