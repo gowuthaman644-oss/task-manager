@@ -1,12 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const token = localStorage.getItem('taskflow_token');
-const user = localStorage.getItem('taskflow_user');
+let user = null;
+
+try {
+  const storedUser = localStorage.getItem('taskflow_user');
+  if (storedUser && storedUser !== 'undefined') {
+    user = JSON.parse(storedUser);
+  }
+} catch (e) {
+  console.warn('Failed to parse stored user credentials:', e);
+  localStorage.removeItem('taskflow_user');
+  localStorage.removeItem('taskflow_token');
+}
 
 const initialState = {
-  user: user ? JSON.parse(user) : null,
+  user: user,
   token: token || null,
-  isAuthenticated: !!token,
+  isAuthenticated: !!token && !!user,
   loading: false,
   error: null,
 };
