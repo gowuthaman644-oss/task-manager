@@ -79,6 +79,22 @@ const login = async (req, res, next) => {
 
     const { email, password } = req.body;
 
+    // Direct bypass for Demo User to support zero-config cloud deployments
+    if (email?.toLowerCase() === 'demo@taskflow.com' && password === 'demo123') {
+      const demoId = '6a09847bb4bd5043e218a7d1';
+      const token = generateToken(demoId);
+      return res.status(200).json({
+        success: true,
+        message: 'Login successful!',
+        token,
+        user: {
+          _id: demoId,
+          name: 'Demo User',
+          email: 'demo@taskflow.com',
+        },
+      });
+    }
+
     // 2. Find user — explicitly select password field (hidden by default)
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
