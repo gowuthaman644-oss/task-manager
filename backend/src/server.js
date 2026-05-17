@@ -91,10 +91,19 @@ app.get('/api/health', (req, res) => {
     message: 'TaskFlow API is running 🚀',
   });
 });
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'TaskFlow API is running 🚀',
+  });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes); // Fallback for Vercel routePrefix stripping
+
 app.use('/api/tasks', taskRoutes);
+app.use('/tasks', taskRoutes); // Fallback for Vercel routePrefix stripping
 
 // 404 handler
 app.use((req, res) => {
